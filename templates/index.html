@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<div class="w3-bar w3-teal">
+    <a href="{{ url_for('hello') }}" class="w3-bar-item w3-button">Home</a>
+</div>
+
+<div class="w3-container">
+    <h2>Elenco Studenti</h2>
+    <table class="w3-table w3-bordered w3-striped">
+        <thead>
+            <tr>
+                <th>Cognome</th>
+                <th>Nome</th>
+                <th>Data di Nascita</th>
+                <th>Matricola</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for studente in studenti %}
+            <tr>
+                <td>{{ studente.cognome }}</td>
+                <td>{{ studente.nome }}</td>
+                <td>{{ studente.datan }}</td>
+                <td>{{ studente.matricola }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
