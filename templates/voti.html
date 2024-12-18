@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title></title>
+    <link rel="stylesheet" href="static\style.css">
+</head>
+<body>
     <style> 
         table { width: 50%; margin: 0 auto; border-collapse: collapse; font-size: 18px; font-family: Arial, sans-serif; } 
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; } 
@@ -11,27 +14,27 @@
         tr:nth-child(even) { background-color: #f9f9f9; } 
         tr:hover { background-color: #f1f1f1; } 
     </style>
-</head>
-<body>
     <table>
         <thead>
             <tr>
-                <th>Nome</th>
-                <th>Cognome</th>
+                <th>Disciplina</th>
                 <th>Data</th>
+                <th>Voto</th>
                 <th>Matricola</th>
             </tr>
         </thead>
         <tbody>
-            {% for result in valori %}
+            {% for result in voti %}
                 <tr>
                     <td>{{ result[0] }}</td>
                     <td>{{ result[1] }}</td>
                     <td>{{ result[2] }}</td>
-                    <td><a href="{{ url_for('voti', studente=result[3]) }}">{{ result[3] }}</a>
+                    <td>{{ result[3] }}</td>
                 </tr>
             {% endfor %}
         </tbody>
     </table> 
+
+    <a href="{{ url_for('root') }}">home</a>
 </body>
 </html>

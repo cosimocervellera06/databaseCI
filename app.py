@@ -1,45 +1,38 @@
+from flask import Flask, render_template, url_for
+
+
 import pymysql.cursors
-from flask import Flask, render_template
+
+conn = pymysql.connect(host='172.16.12.54',
+    user='ospite',
+    password='ospite',
+    database='db5CI')
+
+cur = conn.cursor()
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello():
-    # Creare la connessione al DB
-    conn = pymysql.connect(host='172.16.12.54', user='ospite',password='ospite',database='db5CI')
-
-    # Creare un oggetto cursor
-    cur = conn.cursor()
-
-    # Creare la query
-    sql = 'select * from alunni'
-
-    # Eseguirla
+def root():
+    sql = 'SELECT * FROM alunni'
     cur.execute(sql)
-
-    # Recuperare il risultato
     result = cur.fetchall()
+    return render_template("index.html", valori=result)
 
-    # Manipolare il risultato e memorizzarlo in una lista di dizionari
-    studenti = []
-    for elem in result:
-        studente = {
-            "cognome": elem[0],
-            "nome": elem[1],
-            "datan": elem[2],
-            "matricola": elem[3]
-        }
-        studenti.append(studente)
+@app.route("/<studente>")
+def voti(studente):
+    sql = 'SELECT * FROM verifiche WHERE studente = %s'
+    cur.execute(sql,(studente,))
+    result = cur.fetchall()
+    print(result)
+    return render_template("voti.html",voti = result)
 
-    # Chiudere la connessione
-    cur.close()
-    conn.close()
-
-    # Stampa i dati degli studenti (per debug)
-    for studente in studenti:
-        print(f"Cognome: {studente['cognome']}, Nome: {studente['nome']}, Data di Nascita: {studente['datan']}, Matricola: {studente['matricola']}")
-
-    return render_template("index.html", studenti=studenti)
-
+@app.route("/media")
+def media():
+    sql = 'SELECT cognome, nome, AVG(voto) FROM alunni,verifiche WHERE alunni.matricola=verifiche.studente GROUP BY cognome, nome;'
+    cur.execute(sql)
+    result = cur.fetchall()
+    print(result)
+    return render_template("media.html",media=result)
 
 app.run(debug=True)

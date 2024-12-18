@@ -27,8 +27,7 @@
                 <tr>
                     <td>{{ result[0] }}</td>
                     <td>{{ result[1] }}</td>
-                    <td>{{ result[2] }}</td>
-                    <td><a href="{{ url_for('voti', studente=result[3]) }}">{{ result[3] }}</a>
+                    <td><a href="{{ url_for('media', media=result[2]) }}">{{ result[2] }}</a>
                 </tr>
             {% endfor %}
         </tbody>
